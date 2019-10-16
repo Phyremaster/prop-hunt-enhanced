@@ -6,7 +6,7 @@ local CLASS = {}
 CLASS.DisplayName			= "Prop"
 CLASS.WalkSpeed 			= 250
 CLASS.CrouchedWalkSpeed 	= 0.2
-CLASS.RunSpeed				= 315
+CLASS.RunSpeed				= 425
 CLASS.DuckSpeed				= 0.2
 CLASS.DrawTeamRing			= false
 
