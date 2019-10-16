@@ -226,8 +226,8 @@ function EntityTakeDamage(ent, dmginfo)
 	end
 
     if GAMEMODE:InRound() && ent && ent:IsPlayer() && ent:Alive() && ent:Team() == TEAM_HUNTERS && dmginfo:IsExplosionDamage() then
-        ent:ChatPrint(att)
-        ent:ChatPrint(dmginfo:GetInflictor())
+        ent:ChatPrint(att:GetName())
+        ent:ChatPrint(dmginfo:GetInflictor():GetName())
     end
 end
 hook.Add("EntityTakeDamage", "PH_EntityTakeDamage", EntityTakeDamage)
