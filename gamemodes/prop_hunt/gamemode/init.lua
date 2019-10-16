@@ -224,6 +224,10 @@ function EntityTakeDamage(ent, dmginfo)
 			hook.Call("PH_HunterDeathPenalty", nil, att)
 		end
 	end
+
+    if GAMEMODE:InRound() && ent && ent:IsPlayer() && ent:Alive() && ent:Team() == TEAM_HUNTERS && att && att:IsPlayer() && att:Team() == TEAM_HUNTERS && dmginfo:IsExplosionDamage() then
+        return
+    end
 end
 hook.Add("EntityTakeDamage", "PH_EntityTakeDamage", EntityTakeDamage)
 
@@ -294,8 +298,7 @@ function GM:PlayerExchangeProp(pl, ent)
 			pl:ChatPrint("[PH: Enhanced] Notice: That prop has been banned from the server.")
 		elseif IsValid(ent:GetPhysicsObject()) && IsValid (pl.ph_prop) && (pl.ph_prop:GetModel() != ent:GetModel() || pl.ph_prop:GetSkin() != ent:GetSkin()) then
 			local ent_health = math.Clamp(ent:GetPhysicsObject():GetVolume() / 250, 1, 200)
-			local new_health = math.Clamp((pl.ph_prop.health / pl.ph_prop.max_health) * ent_health, 1, 200)
-			pl.ph_prop.health = new_health
+			pl.ph_prop.health = ent_health
 
 			pl.ph_prop.max_health = ent_health
 			pl.ph_prop:SetModel(ent:GetModel())
@@ -304,7 +307,7 @@ function GM:PlayerExchangeProp(pl, ent)
 			pl.ph_prop:SetPos(pl:GetPos() - Vector(0, 0, ent:OBBMins().z))
 			pl.ph_prop:SetAngles(pl:GetAngles())
 
-			pl:SetHealth(new_health)
+			pl:SetHealth(ent_health)
 
 			if GetConVar("ph_sv_enable_obb_modifier"):GetBool() && ent:GetNWBool("hasCustomHull",false) then
 				local hmin	= ent.m_Hull[1]
@@ -330,7 +333,7 @@ function GM:PlayerExchangeProp(pl, ent)
 					net.WriteInt(math.Round(math.Max(hmax.x,hmax.y)),32)
 					net.WriteInt(hmax.z,32)
 					net.WriteInt(dmax.z,32)
-					net.WriteInt(new_health,9)
+					net.WriteInt(ent_health,9)
 				net.Send(pl)
 			else
 				local hullxymax = math.Round(math.Max(ent:OBBMaxs().x, ent:OBBMaxs().y))
@@ -366,7 +369,7 @@ function GM:PlayerExchangeProp(pl, ent)
 					net.WriteInt(hullxymax, 32)
 					net.WriteInt(hullz, 32)
 					net.WriteInt(dhullz, 32)
-					net.WriteInt(new_health, 9)
+					net.WriteInt(ent_health, 9)
 				net.Send(pl)
 			end
 		end
