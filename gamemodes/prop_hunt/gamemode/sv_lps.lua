@@ -38,6 +38,10 @@ hook.Add("WeaponEquip", "LastPropStandingNoHands", function(wep, ply)
     end
 end)
 
+hook.Add("GetFallDamage", "NoFallDamage", function(ply, spd)
+    return 0
+end)
+
 function lastPropStandingTest(ply)
     if GetConVar("ph_enable_last_prop_standing"):GetBool() && !(ply:Team() == TEAM_HUNTERS || ply:Team() == TEAM_UNASSIGNED || ply:Team() == TEAM_SPECTATOR) then
         timer.Simple(0.1, function()
