@@ -14,6 +14,16 @@ end
 
 include("sv_lps_config.lua")
 
+function lastPropStandingSetup()
+    if GetConVar("ph_enable_last_prop_standing"):GetBool() then
+        GM.NoPlayerPlayerDamage = false
+    else
+        GM.NoPlayerPlayerDamage = true
+    end
+end
+lastPropStandingSetup()
+cvars.AddChangeCallback("ph_enable_last_prop_standing", lastPropStandingSetup())
+
 function lastPropStandingWeapon()
 	if !(GetConVar("ph_last_prop_standing_weapon"):GetString() == "random") then
         PHE.LPS.WEAPON = GetConVar("ph_last_prop_standing_weapon"):GetString()

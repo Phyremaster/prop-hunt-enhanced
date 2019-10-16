@@ -224,6 +224,11 @@ function EntityTakeDamage(ent, dmginfo)
 			hook.Call("PH_HunterDeathPenalty", nil, att)
 		end
 	end
+
+    if GAMEMODE:InRound() && ent && ent:IsPlayer() && ent:Alive() && ent:Team() == TEAM_HUNTERS && dmginfo:IsExplosionDamage() then
+        ent:ChatPrint(att)
+        ent:ChatPrint(dmginfo:GetInflictor())
+    end
 end
 hook.Add("EntityTakeDamage", "PH_EntityTakeDamage", EntityTakeDamage)
 
