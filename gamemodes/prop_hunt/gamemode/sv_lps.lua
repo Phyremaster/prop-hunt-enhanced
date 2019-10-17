@@ -38,8 +38,11 @@ hook.Add("PlayerCanPickupWeapon", "LastPropStandingWeaponPickup", function(ply, 
 	end
 end)
 
-hook.Add("EntityTakeDamage", "LastPropStandingNoHunterSelfExplode", function(ent, dmginfo)
+hook.Add("EntityTakeDamage", "LastPropStandingBlockDamage", function(ent, dmginfo)
     if GAMEMODE:InRound() && ent && ent:IsPlayer() && ent:Alive() && ent:Team() == TEAM_HUNTERS && dmginfo:GetAttacker() && dmginfo:GetAttacker():IsPlayer() && dmginfo:GetAttacker():Team() == TEAM_HUNTERS && dmginfo:IsExplosionDamage() then
+        return true
+    end
+    if ent:IsPlayer() && dmginfo:GetDamageType() == DMG_FALL then
         return true
     end
 end)
@@ -48,10 +51,6 @@ hook.Add("WeaponEquip", "LastPropStandingNoHands", function(wep, ply)
 	if ply:Team() == TEAM_PROPS then
         ply:GetHands():Remove()
     end
-end)
-
-hook.Add("GetFallDamage", "NoFallDamage", function(ply, spd)
-    return 0
 end)
 
 function lastPropStandingTest(ply)
