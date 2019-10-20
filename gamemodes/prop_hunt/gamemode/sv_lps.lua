@@ -44,7 +44,7 @@ hook.Add("EntityTakeDamage", "LastPropStandingBlockDamage", function(ent, dmginf
     end
     if ent && ent:IsPlayer() && dmginfo:IsDamageType(DMG_FALL) then
         return true
-    else if ent && ent:IsPlayer() && !dmginfo:GetAttacker():GetName() then
+    elseif ent && ent:IsPlayer() && !dmginfo:GetAttacker():GetName() then
 		ent:ChatPrint("ANOMOLOUS DAMAGE DETECTED! Type: " .. dmginfo:GetDamageType())
 	end
 end)
