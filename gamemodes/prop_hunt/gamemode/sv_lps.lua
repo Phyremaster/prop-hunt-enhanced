@@ -42,10 +42,8 @@ hook.Add("EntityTakeDamage", "LastPropStandingBlockDamage", function(ent, dmginf
     if GAMEMODE:InRound() && ent && ent:IsPlayer() && ent:Alive() && ent:Team() == TEAM_HUNTERS && dmginfo:GetAttacker() && dmginfo:GetAttacker():IsPlayer() && dmginfo:GetAttacker():Team() == TEAM_HUNTERS && dmginfo:IsExplosionDamage() then
         return true
     end
-    if ent && ent:IsPlayer() && dmginfo:IsDamageType(DMG_FALL) then
+    if ent && ent:IsPlayer() && dmginfo:GetAttacker():GetName() == "" then
         return true
-    elseif ent && ent:IsPlayer() && !(dmginfo:GetAttacker() || dmginfo:GetAttacker():GetName()) then
-		ent:ChatPrint("ANOMOLOUS DAMAGE DETECTED! Type: " .. dmginfo:GetDamageType())
 	end
 end)
 
